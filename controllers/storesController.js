@@ -1,4 +1,19 @@
-const getStores = (req, res) => res.status(200).send("get stores works");
+const Store = require("../models/store");
+const {
+  statusCodes,
+  sendError,
+  sendResponse,
+  errorMessages,
+} = require("../utils/responses");
+
+const getStores = async (req, res) => {
+  try {
+    const stoers = await Store.find();
+    sendResponse(res, stoers, statusCodes.success.ok);
+  } catch (error) {
+    sendError(res, error.message, statusCodes.error.badRequest);
+  }
+};
 
 const getStore = (req, res) => res.status(200).send("get store works");
 
