@@ -10,7 +10,12 @@ const { DB_URI, PORT } = configs[ENV];
 
 // connect to data base
 mongoose
-  .connect(DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
   .then(() => {
     app.listen(PORT, (err) => {
       if (err) return console.log(err.message);
