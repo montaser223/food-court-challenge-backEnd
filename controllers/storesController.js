@@ -35,7 +35,23 @@ const createStore = async (req, res) => {
   }
 };
 
-const updateStore = (req, res) => res.status(200).send("updateStore works");
+const updateStore = async (req, res) => {
+  try {
+    const updatedStore = await Store.findOneAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updatedStore)
+      return sendError(res, errorMessages.notFound, statusCodes.error.notFound);
+    sendResponse(res, updatedStore, statusCodes.success.ok);
+  } catch (error) {
+    sendError(res, error.message, statusCodes.error.badRequest);
+  }
+};
 
 const deleteStore = (req, res) => res.status(200).send("deleteStore works");
 
