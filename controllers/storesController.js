@@ -15,8 +15,16 @@ const getStores = async (req, res) => {
   }
 };
 
-const getStore = (req, res) => res.status(200).send("get store works");
-
+const getStore = async (req, res) => {
+  try {
+    const stoer = await Store.findOne({ _id: req.params.id });
+    if (!stoer)
+      return sendError(res, errorMessages.notFound, statusCodes.error.notFound);
+    sendResponse(res, stoer, statusCodes.success.ok);
+  } catch (error) {
+    sendError(res, error.message, statusCodes.error.badRequest);
+  }
+};
 const createStore = (req, res) => res.status(200).send("createStore works");
 
 const updateStore = (req, res) => res.status(200).send("updateStore works");
