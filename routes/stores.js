@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const stoersController = require("../controllers/stoersController");
+const storesController = require("../controllers/storesController");
 /**
  * GET
  * Route: /
  * Result: return all food stoers
  */
 
-router.get("/", stoersController.getStoers);
+router.get("/", storesController.getStores);
 
 /**
  * GET
@@ -15,7 +15,7 @@ router.get("/", stoersController.getStoers);
  * Result: return matched food stoers or 404
  */
 
-router.get("/:id", stoersController.getStoer);
+router.get("/:id", storesController.getStore);
 
 /**
  * POST
@@ -23,7 +23,7 @@ router.get("/:id", stoersController.getStoer);
  * Result: return created food stoers
  */
 
-router.post("/", stoersController.createStore);
+router.post("/", storesController.createStore);
 
 /**
  * PUT
@@ -31,7 +31,7 @@ router.post("/", stoersController.createStore);
  * Result: return updated food stoers
  */
 
-router.put("/:id", stoersController.updateStore);
+router.put("/:id", storesController.updateStore);
 
 /**
  * DELETE
@@ -39,6 +39,6 @@ router.put("/:id", stoersController.updateStore);
  * Result: return deleted food stoers
  */
 
-router.delete("/:id", stoersController.deleteStore);
+router.delete("/:id", storesController.deleteStore);
 
 module.exports = router;
