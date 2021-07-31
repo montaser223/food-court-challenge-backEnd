@@ -1,8 +1,8 @@
 const express = require("express");
-const config = require("./config");
 const app = express();
 const mongoose = require("mongoose");
 const configs = require("./config");
+const cors = require("cors");
 
 // get the enviornment configs
 const ENV = process.env.NODE_ENV || "dev";
@@ -20,3 +20,10 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
+
+//  add middlewares
+app.use(express.json());
+app.use(cors());
+
+// add routes
+app.use("/stores", require("./routes/stores"));
