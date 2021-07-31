@@ -53,7 +53,16 @@ const updateStore = async (req, res) => {
   }
 };
 
-const deleteStore = (req, res) => res.status(200).send("deleteStore works");
+const deleteStore = async (req, res) => {
+  try {
+    const deletedStore = await Store.findOneAndDelete({ _id: req.params.id });
+    if (!deletedStore)
+      return sendError(res, errorMessages.notFound, statusCodes.error.notFound);
+    sendResponse(res, deletedStore, statusCodes.success.ok);
+  } catch (error) {
+    sendError(res, error.message, statusCodes.error.badRequest);
+  }
+};
 
 module.exports = {
   getStores,
