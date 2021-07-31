@@ -25,7 +25,15 @@ const getStore = async (req, res) => {
     sendError(res, error.message, statusCodes.error.badRequest);
   }
 };
-const createStore = (req, res) => res.status(200).send("createStore works");
+
+const createStore = async (req, res) => {
+  try {
+    const createdStoer = await Store.create(req.body);
+    sendResponse(res, createdStoer, statusCodes.success.ok);
+  } catch (error) {
+    sendError(res, error.message, statusCodes.error.badRequest);
+  }
+};
 
 const updateStore = (req, res) => res.status(200).send("updateStore works");
 
