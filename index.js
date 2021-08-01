@@ -30,5 +30,8 @@ mongoose
 app.use(express.json());
 app.use(cors());
 
+// static files middleware
+app.use("/public", express.static("public/"));
+
 // add routes
 app.use("/stores", require("./routes/stores"));
