@@ -12,6 +12,7 @@ const statusCodes = {
   error: {
     badRequest: 400,
     notFound: 404,
+    invalidMediaType: 415,
   },
 };
 
