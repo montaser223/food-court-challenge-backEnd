@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const storeSchema = new Schema(
   {
@@ -25,6 +26,8 @@ const storeSchema = new Schema(
     timestamps: true,
   }
 );
+// add pagination on store model
+storeSchema.plugin(mongoosePaginate);
 
 const storeModel = model("Store", storeSchema);
 

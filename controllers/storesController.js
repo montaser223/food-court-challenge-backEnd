@@ -7,10 +7,19 @@ const {
 } = require("../utils/responses");
 const uploadImage = require("../middlewares/uploadImage");
 const fs = require("fs");
+const extractPaginationInfo = require("../utils/extractPaginationInfo");
 
 const getStores = async (req, res) => {
+  const [{ limit, page }, filter] = extractPaginationInfo(req.query);
+
+  const options = {
+    sort: { createdAt: -1 },
+    page,
+    limit,
+  };
+
   try {
-    const stores = await Store.find();
+    const stores = await Store.paginate(filter, options);
     sendResponse(res, stores, statusCodes.success.ok);
   } catch (error) {
     sendError(res, error.message, statusCodes.error.badRequest);
