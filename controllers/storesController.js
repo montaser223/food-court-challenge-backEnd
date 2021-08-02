@@ -53,21 +53,31 @@ const createStore = async (req, res) => {
 };
 
 const updateStore = async (req, res) => {
-  try {
-    const updatedStore = await Store.findOneAndUpdate(
-      { _id: req.params.id },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    if (!updatedStore)
-      return sendError(res, errorMessages.notFound, statusCodes.error.notFound);
-    sendResponse(res, updatedStore, statusCodes.success.ok);
-  } catch (error) {
-    sendError(res, error.message, statusCodes.error.badRequest);
-  }
+  const upload = uploadImage.single("storeLogo");
+  upload(req, res, async (err) => {
+    if (err)
+      return sendError(res, err.message, statusCodes.error.invalidMediaType);
+    if (req.file) req.body.storeLogo = req.file.destination + req.file.filename;
+    try {
+      const updatedStore = await Store.findOneAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        {
+          runValidators: true,
+        }
+      );
+      if (!updatedStore)
+        return sendError(
+          res,
+          errorMessages.notFound,
+          statusCodes.error.notFound
+        );
+      req.file && deleteFile(updatedStore.storeLogo);
+      sendResponse(res, updatedStore, statusCodes.success.ok);
+    } catch (error) {
+      sendError(res, error.message, statusCodes.error.badRequest);
+    }
+  });
 };
 
 const deleteStore = async (req, res) => {
