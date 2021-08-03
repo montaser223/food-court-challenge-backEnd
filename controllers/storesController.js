@@ -6,11 +6,14 @@ const {
   errorMessages,
 } = require("../utils/responses");
 const uploadImage = require("../middlewares/uploadImage");
-const fs = require("fs");
 const extractPaginationInfo = require("../utils/extractPaginationInfo");
+const deleteFile = require("../utils/deleteFile");
 
 const getStores = async (req, res) => {
   const [{ limit, page }, filter] = extractPaginationInfo(req.query);
+  if (filter.storeName) {
+    filter.storeName = { $regex: filter.storeName.toLowerCase() };
+  }
 
   const options = {
     sort: { createdAt: -1 },
@@ -90,15 +93,6 @@ const deleteStore = async (req, res) => {
   } catch (error) {
     sendError(res, error.message, statusCodes.error.badRequest);
   }
-};
-
-const deleteFile = (path) => {
-  return fs.unlink(path, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-  });
 };
 
 module.exports = {
