@@ -11,6 +11,9 @@ const deleteFile = require("../utils/deleteFile");
 
 const getStores = async (req, res) => {
   const [{ limit, page }, filter] = extractPaginationInfo(req.query);
+  if (filter.storeName) {
+    filter.storeName = { $regex: filter.storeName.toLowerCase() };
+  }
 
   const options = {
     sort: { createdAt: -1 },
