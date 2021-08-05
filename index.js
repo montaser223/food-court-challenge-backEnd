@@ -8,6 +8,7 @@ const cors = require("cors");
 const ENV = process.env.NODE_ENV || "dev";
 const { DB_URI, PORT } = configs[ENV];
 
+console.log("prd", process.env.NODE_ENV);
 // connect to data base
 mongoose
   .connect(DB_URI, {
