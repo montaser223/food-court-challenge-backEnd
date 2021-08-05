@@ -5,7 +5,7 @@ const configs = require("./config");
 const cors = require("cors");
 
 // get the enviornment configs
-const ENV = process.env.NODE_ENV || "dev";
+const ENV =  "dev";
 const { DB_URI, PORT } = configs[ENV];
 
 console.log("prd", process.env.NODE_ENV);
